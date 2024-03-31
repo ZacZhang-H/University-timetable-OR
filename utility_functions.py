@@ -41,7 +41,7 @@ def calculate_conflicts(timetable):
 
 def print_timetable(timetable, hours_per_course):
 
-    sorted_timetable = sorted(initial_timetable, key=lambda x: (x[1], x[2], x[3]))
+    sorted_timetable = sorted(timetable, key=lambda x: (x[1], x[2], x[3]))
 
     current_room = ""
     for entry in sorted_timetable:
