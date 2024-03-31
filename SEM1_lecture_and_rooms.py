@@ -1,5 +1,5 @@
 # dataset
-courses = ['MATH08057',
+courses1 = ['MATH08057',
   'MATH08057A',
   'MATH08063',
   'MATH08066',
@@ -75,7 +75,7 @@ courses = ['MATH08057',
     'MATH11154',
     'MATH11179']
 
-students_per_course = {'MATH08071A': 71,
+students_per_course1 = {'MATH08071A': 71,
   'MATH08071': 71,
   'MATH11226A': 38,
   'MATH11226': 38,
@@ -151,7 +151,7 @@ students_per_course = {'MATH08071A': 71,
     'MATH11154': 79,
     'MATH11179': 29}
 
-hours_per_course = {
+hours_per_course1 = {
     'MATH08071A': 1, 'MATH08071': 1,
     'MATH11226A': 1, 'MATH11226': 1,
     'MATH10053A': 1, 'MATH10053': 1,
