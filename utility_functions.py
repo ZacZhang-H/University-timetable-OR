@@ -39,6 +39,34 @@ def calculate_conflicts(timetable):
 #         elif duration == 2:
 #             print(f"Course Code: {course}, Room Name: {room}, Day {day}, Hours {hour} and {hour + 1}")
 
+# def print_timetable(initial_timetable, hours_per_course):
+#     # Convert numeric hours to specific times
+#     hour_conversion = {
+#         1: "9 AM", 2: "10 AM", 3: "11 AM", 4: "12 PM", 5: "1 PM",
+#         6: "2 PM", 7: "3 PM", 8: "4 PM", 9: "5 PM", 10: "6 PM"
+#     }
+#     # Convert numeric days to their names
+#     day_conversion = {
+#         1: "Monday", 2: "Tuesday", 3: "Wednesday",
+#         4: "Thursday", 5: "Friday"
+#     }
+    
+#     # Sort timetable by room, day, and hour
+#     sorted_timetable = sorted(initial_timetable, key=lambda x: (x[1], x[2], x[3]))
+
+#     current_room = ""
+#     for entry in sorted_timetable:
+#         room_name, day, hour = entry[1], entry[2], entry[3]
+#         if room_name != current_room:
+#             print(f"\n{room_name}:")
+#             current_room = room_name
+        
+#         # Convert numeric day and hour using the dictionaries
+#         day_str = day_conversion.get(day, "Invalid Day")
+#         hour_str = hour_conversion.get(hour, "Invalid Hour")
+        
+#         print(f"  - Course Code: {entry[0]}, {day_str}, {hour_str}")
+
 def print_timetable(initial_timetable, hours_per_course):
     # Convert numeric hours to specific times
     hour_conversion = {
@@ -51,19 +79,33 @@ def print_timetable(initial_timetable, hours_per_course):
         4: "Thursday", 5: "Friday"
     }
     
-    # Sort timetable by room, day, and hour
-    sorted_timetable = sorted(initial_timetable, key=lambda x: (x[1], x[2], x[3]))
+    # Sort timetable by course, room, day, and hour for better checking of continuous periods
+    sorted_timetable = sorted(initial_timetable, key=lambda x: (x[0], x[1], x[2], x[3]))
 
     current_room = ""
-    for entry in sorted_timetable:
-        room_name, day, hour = entry[1], entry[2], entry[3]
+    for i, entry in enumerate(sorted_timetable):
+        course_code, room_name, day, start_hour = entry
         if room_name != current_room:
             print(f"\n{room_name}:")
             current_room = room_name
         
-        # Convert numeric day and hour using the dictionaries
-        day_str = day_conversion.get(day, "Invalid Day")
-        hour_str = hour_conversion.get(hour, "Invalid Hour")
+        # Initialize end_hour as start_hour
+        end_hour = start_hour
         
-        print(f"  - Course Code: {entry[0]}, {day_str}, {hour_str}")
+        # Check for continuous periods for the same course
+        while i + 1 < len(sorted_timetable) and \
+              sorted_timetable[i + 1][0] == course_code and \
+              sorted_timetable[i + 1][2] == day and \
+              sorted_timetable[i + 1][3] == end_hour + 1:
+            end_hour = sorted_timetable[i + 1][3]
+            i += 1  # Move to the next entry
 
+        # Convert numeric day and start_hour using the dictionaries
+        day_str = day_conversion.get(day, "Invalid Day")
+        start_hour_str = hour_conversion.get(start_hour, "Invalid Hour")
+        
+        if end_hour != start_hour:
+            end_hour_str = hour_conversion.get(end_hour, "Invalid Hour")
+            print(f"  - Course Code: {course_code}, {day_str}, {start_hour_str}-{end_hour_str}")
+        else:
+            print(f"  - Course Code: {course_code}, {day_str}, {start_hour_str}")
