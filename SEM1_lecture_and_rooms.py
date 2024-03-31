@@ -198,7 +198,7 @@ hours_per_course1 = {
     'MATH11154': 2,
     'MATH11179': 2,
 }
-courses2{
+courses2={
 
     'MATH10086', 'MATH11120', 'MATH10077', 'MATH11140', 'MATH08058', 'MATH08065', 
 
@@ -229,7 +229,7 @@ courses2{
 
  
 
-students_per_course2{
+students_per_course2={
 
     'MATH10086': 54, 'MATH11120': 37, 'MATH10077': 23, 'MATH11140': 43, 'MATH08058': 623, 
 
