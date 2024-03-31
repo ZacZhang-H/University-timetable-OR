@@ -6,7 +6,7 @@ from utility_functions import print_timetable, calculate_conflicts, check_unassi
 
 def semster_lectures(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
     #Generate initial schedule randomly
-    print("-----------SEM1 lecture--------")
+    
     print("Step 1: Generating Initial Timetable using Random Generation")
     initial_timetable = generate_random_timetable(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours)
     print_timetable(initial_timetable, hours_per_course)
