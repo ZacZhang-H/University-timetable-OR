@@ -39,16 +39,31 @@ def calculate_conflicts(timetable):
 #         elif duration == 2:
 #             print(f"Course Code: {course}, Room Name: {room}, Day {day}, Hours {hour} and {hour + 1}")
 
-def print_timetable(timetable, hours_per_course):
-
-    sorted_timetable = sorted(timetable, key=lambda x: (x[1], x[2], x[3]))
+def print_timetable(initial_timetable, hours_per_course):
+    # Convert numeric hours to specific times
+    hour_conversion = {
+        1: "9 AM", 2: "10 AM", 3: "11 AM", 4: "12 PM", 5: "1 PM",
+        6: "2 PM", 7: "3 PM", 8: "4 PM", 9: "5 PM", 10: "6 PM"
+    }
+    # Convert numeric days to their names
+    day_conversion = {
+        1: "Monday", 2: "Tuesday", 3: "Wednesday",
+        4: "Thursday", 5: "Friday"
+    }
+    
+    # Sort timetable by room, day, and hour
+    sorted_timetable = sorted(initial_timetable, key=lambda x: (x[1], x[2], x[3]))
 
     current_room = ""
     for entry in sorted_timetable:
-        room_name = entry[1]
+        room_name, day, hour = entry[1], entry[2], entry[3]
         if room_name != current_room:
             print(f"\n{room_name}:")
             current_room = room_name
-       
-        hour_str = f"Hour {entry[3]}" 
-        print(f"  - Course Code: {entry[0]}, Day {entry[2]}, {hour_str}")
+        
+        # Convert numeric day and hour using the dictionaries
+        day_str = day_conversion.get(day, "Invalid Day")
+        hour_str = hour_conversion.get(hour, "Invalid Hour")
+        
+        print(f"  - Course Code: {entry[0]}, {day_str}, {hour_str}")
+
