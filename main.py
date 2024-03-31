@@ -5,8 +5,9 @@ from genetic_algorithm_optimizer import genetic_algorithm_optimize
 from SEM1_lecture_and_rooms import courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours
 from utility_functions import print_timetable, calculate_conflicts, check_unassigned_courses, print_unused_classrooms
 
-def main():
+def semster_lectures(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
     #Generate initial schedule randomly
+    print("-----------SEM1 lecture--------")
     print("Step 1: Generating Initial Timetable using Random Generation")
     initial_timetable = generate_random_timetable(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours)
     print_timetable(initial_timetable, hours_per_course)
@@ -62,6 +63,7 @@ def main():
     # print_unused_classrooms(pso_optimized_timetable, rooms)
 
 
+
     
     # Check unassigned courses
     unassigned = check_unassigned_courses(courses, ga_optimized_timetable)
@@ -70,5 +72,4 @@ def main():
     else:
         print("All courses have been successfully scheduled.")
 
-if __name__ == "__main__":
-    main()
+
