@@ -1,4 +1,4 @@
-from random_timetable_generator import generate_random_timetable
+from random_timetable_generator import generate_random_sample
 from simulated_annealing import simulated_annealing
 from pso_optimizer import pso_optimize
 from genetic_algorithm_optimizer import genetic_algorithm_optimize
