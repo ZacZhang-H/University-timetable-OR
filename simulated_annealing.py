@@ -1,6 +1,7 @@
 import random
 import math
 import matplotlib.pyplot as plt
+import copy
 
 from utility_functions import calculate_conflict_occurrences,calculate_conflict_count,is_time_slot_available
 
