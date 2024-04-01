@@ -68,42 +68,33 @@ def calculate_conflicts(timetable):
 #         print(f"  - Course Code: {entry[0]}, {day_str}, {hour_str}")
 
 def print_timetable_by_room(initial_timetable, hours_per_course):
-    # Existing hour and day conversion dictionaries remain unchanged
     hour_conversion = {
         1: "9 AM", 2: "10 AM", 3: "11 AM", 4: "12 PM", 5: "1 PM",
         6: "2 PM", 7: "3 PM", 8: "4 PM", 9: "5 PM", 10: "6 PM"
     }
-    # Convert numeric days to their names
     day_conversion = {
         1: "Monday", 2: "Tuesday", 3: "Wednesday",
         4: "Thursday", 5: "Friday"
     }
-    # Sort timetable by room, day, and hour
 
-    # Existing hour and day conversion dictionaries remain unchanged
-
+    # Sort the timetable by room, day, and start hour
     sorted_timetable = sorted(initial_timetable, key=lambda x: (x[1], x[2], x[3]))
+
     current_room = ""
-    
-    for i, entry in enumerate(sorted_timetable):
-        course_code, room_name, day, hour = entry
-        
+
+    for entry in sorted_timetable:
+        course_code, room_name, day, start_hour, end_hour = entry
+
         if room_name != current_room:
             print(f"\n{room_name}:")
             current_room = room_name
 
         day_str = day_conversion.get(day, "Invalid Day")
-        start_hour_str = hour_conversion.get(hour, "Invalid Hour")
-
-        # Determine the course duration and calculate the end hour
-        course_duration = hours_per_course.get(course_code, 1)
-        end_hour = hour + course_duration
+        start_hour_str = hour_conversion.get(start_hour, "Invalid Hour")
         end_hour_str = hour_conversion.get(end_hour, "Invalid Hour")
-
-        # Adjust for courses that last only 1 hour
-        if course_duration == 1:
-            end_hour_str = hour_conversion.get(hour + 1, "Invalid Hour")
 
         # Print the course details
         print(f"  - Course Code: {course_code}, {day_str}, {start_hour_str}-{end_hour_str}")
+
+
 
