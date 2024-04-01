@@ -10,7 +10,6 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     print("Step 1: Generating Initial Timetable using Random Generation")
     initial_timetable= generate_random_sample(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours)
     print_timetable_by_room(initial_timetable,hours_per_course)
-    print_timetable_by_room(final_timetable, hours_per_course)
     conflicts = calculate_conflict_occurrences(initial_timetable)  # Calculates conflicts based on room and start hour
     conflict_occurrences = calculate_conflict_count(initial_timetable) 
     print("conflict occurrences:", conflicts,"number of courses that conflict",conflict_occurrences)
