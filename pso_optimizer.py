@@ -4,6 +4,26 @@ import matplotlib.pyplot as plt
 import math
 from utility_functions import calculate_conflict_occurrences,calculate_conflict_count,is_time_slot_available
 
+def fitness(timetable, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
+    """
+    Calculate the fitness of a timetable, focusing on reducing the number of conflict occurrences and conflict count.
+    """
+    # Set a penalty for each conflict occurrence and each conflict count
+    conflict_penalty = 1000
+
+    # Calculate conflict occurrences and conflict counts
+    conflict_occurrences = calculate_conflict_occurrences(timetable)
+    conflict_count = calculate_conflict_count(timetable)
+    
+    # Apply penalties for conflicts
+    total_penalty = (conflict_occurrences + conflict_count) * conflict_penalty
+
+    # The fitness is inversely proportional to the total penalty
+    fitness_score = -total_penalty
+
+    return fitness_score
+
+
 
 class Particle:
     def __init__(self, timetable, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
