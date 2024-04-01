@@ -8,31 +8,37 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     #Generate initial schedule randomly
     
     print("Step 1: Generating Initial Timetable using Random Generation")
-    initial_timetable = generate_random_timetable(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours)
-    print_timetable(initial_timetable, hours_per_course)
-    print("Initial Conflicts:", calculate_conflicts(initial_timetable))
-    print_unused_classrooms(initial_timetable, rooms)
+    initial_timetable= generate_random_sample(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours)
+    print_timetable_by_room(initial_timetable,hours_per_course)
+    print_timetable_by_room(final_timetable, hours_per_course)
+    conflicts = calculate_conflict_occurrences(initial_timetable)  # Calculates conflicts based on room and start hour
+    conflict_occurrences = calculate_conflict_count(initial_timetable) 
+    print("conflict occurrences:", conflicts,"number of courses that conflict",conflict_occurrences)
+    conflicting_courses = find_conflicting_courses(initial_timetable)
+    print("Conflicting courses:", conflicting_courses)
 
     # Optimize random schedules using simulated annealing
     print("\nStep 2: Optimizing Timetable using Simulated Annealing")
-    sa_optimized_timetable = simulated_annealing(initial_timetable,courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours, max_iterations=100000)
-    print_timetable(sa_optimized_timetable, hours_per_course)
-    print("SA Optimized Conflicts:", calculate_conflicts(sa_optimized_timetable))
-    print_unused_classrooms(sa_optimized_timetable, rooms)
+    optimized_timetable = simulated_annealing(initial_timetable,courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num=5, max_lecture_hours=9, max_iterations=100000)
+    print("Optimized class schedule and the number of conflicts：")
+    print_timetable_by_room(optimized_timetable, hours_per_course)
+    conflicts = calculate_conflict_occurrences(optimized_timetable)  # Calculates conflicts based on room and start hour
+    conflict_occurrences = calculate_conflict_count(optimized_timetable) 
+    print("conflict occurrences:", conflicts,"number of courses that conflict",conflict_occurrences)
+    conflicting_courses = find_conflicting_courses(optimized_timetable)
+    print("Conflicting courses:", conflicting_courses)
 
     # Optimize the results of simulated annealing using PSO
     print("\nStep 3: Further Optimizing Timetable using Particle Swarm Optimization (PSO)")
-    pso_optimized_timetable = pso_optimize(sa_optimized_timetable, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours, num_particles=30, max_iterations=10000, print_frequency=100)
-    print_timetable(pso_optimized_timetable, hours_per_course)
-    print("PSO Optimized Conflicts:", calculate_conflicts(pso_optimized_timetable))
-    print_unused_classrooms(pso_optimized_timetable, rooms)
+    final_timetable = pso_optimize(optimized_timetable,hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours, num_particles=30, max_iterations=10000, print_frequency=100)
+    print("Optimized class schedule and the number of conflicts：")
+    print_timetable_by_room(final_timetable, hours_per_course)
+    conflicts = calculate_conflict_occurrences(final_timetable)  # Calculates conflicts based on room and start hour
+    conflict_occurrences = calculate_conflict_count(final_timetable) 
+    print("conflict occurrences:", conflicts,"number of courses that conflict",conflict_occurrences)
+    conflicting_courses = find_conflicting_courses(optimized_timetable)
+    print("Conflicting courses:", conflicting_courses)
 
-    # Use genetic algorithm to optimize the results of PSO
-    print("\nStep 4: Final Optimization using Genetic Algorithm (GA)")
-    ga_optimized_timetable = genetic_algorithm_optimize(pso_optimized_timetable, hours_per_course, students_per_course, room_capacities, rooms, max_lecture_hours, population_size=1000, generations=200)
-    print_timetable(ga_optimized_timetable, hours_per_course)
-    print("GA Optimized Conflicts:", calculate_conflicts(ga_optimized_timetable))
-    print_unused_classrooms(ga_optimized_timetable, rooms)
 
 
 
