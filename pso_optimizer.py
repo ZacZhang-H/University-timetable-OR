@@ -1,7 +1,7 @@
 import copy
 import random
 import matplotlib.pyplot as plt
-from utility_functions import calculate_conflicts, get_unused_classrooms_count
+from utility_functions import calculate_conflict_occurrences,calculate_conflict_count,is_time_slot_available
 
 
 class Particle:
