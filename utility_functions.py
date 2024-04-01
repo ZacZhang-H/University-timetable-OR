@@ -121,4 +121,7 @@ def print_timetable_by_room(initial_timetable, hours_per_course):
         print(f"  - Course Code: {course_code}, {day_str}, {start_hour_str}-{end_hour_str}")
 
 
-
+def check_unassigned_courses(courses, optimized_timetable):
+    assigned_courses = set(entry[0] for entry in optimized_timetable)
+    unassigned_courses = set(courses) - assigned_courses
+    return unassigned_courses
