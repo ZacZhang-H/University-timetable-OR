@@ -1,5 +1,5 @@
 import random
-
+from utility_functions import calculate_conflict_occurrences,calculate_conflict_count,is_time_slot_available
 def generate_random_sample(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
     timetable = []
     for course in courses:
