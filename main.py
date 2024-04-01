@@ -5,7 +5,7 @@ from SEM1_lecture_and_rooms import courses1, hours_per_course1, students_per_cou
 def main():
   
   print("-------SEM1 Lecture-----")
-  #semster_lectures(courses1, hours_per_course1, students_per_course1, room_capacities, rooms, weekdays_num, max_lecture_hours)
+  semster_lectures(courses1, hours_per_course1, students_per_course1, room_capacities, rooms, weekdays_num, max_lecture_hours)
   print("-------SEM2 Lecture-----")
   semster_lectures(courses2, hours_per_course2, students_per_course2, room_capacities, rooms, weekdays_num, max_lecture_hours)
 
