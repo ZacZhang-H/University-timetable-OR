@@ -43,7 +43,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
 
     
     # Check unassigned courses
-    unassigned = check_unassigned_courses(courses, ga_optimized_timetable)
+    unassigned = check_unassigned_courses(courses, final_timetable)
     if unassigned:
         print("Unassigned Courses after Optimization:", unassigned)
     else:
