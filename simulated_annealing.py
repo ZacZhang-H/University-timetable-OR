@@ -7,32 +7,6 @@ from utility_functions import calculate_conflict_occurrences,calculate_conflict_
 
 random.seed(43)
 
-def find_unused_time_slots(timetable, weekdays_num, max_lecture_hours):
-   
-    all_time_slots = {(day, hour): False for day in range(1, weekdays_num + 1) for hour in range(1, max_lecture_hours + 1)}
-
-  
-    for _, _, day, start_hour, end_hour in timetable:
-        for hour in range(start_hour, end_hour):
-            all_time_slots[(day, hour)] = True
-
-
-    unused_time_slots = []
-    for day in range(1, weekdays_num + 1):
-        start = None
-        for hour in range(1, max_lecture_hours + 1):
-            if all_time_slots[(day, hour)] == False:
-                if start is None:
-                    start = hour
-            else:
-                if start is not None:
-                    unused_time_slots.append((day, start, hour))
-                    start = None
-   
-        if start is not None:
-            unused_time_slots.append((day, start, max_lecture_hours + 1))
-
-    return unused_time_slots
 
 
 def fitness(timetable, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
@@ -70,13 +44,42 @@ def generate_sample(courses, hours_per_course, students_per_course, room_capacit
                     continue
                 for start_hour in range(1, max_lecture_hours - hours_needed + 1):
                     end_hour = start_hour + hours_needed
-                   
+                    # 检查即使加上持续时间后，是否仍然不超过最大时间段
                     if end_hour <= max_lecture_hours: 
                         if is_time_slot_available(timetable, room, day, start_hour, end_hour):
-                            timetable.append((course, room, day, start_hour, end_hour)) 
+                            timetable.append((course, room, day, start_hour, end_hour))  # 使用 end_hour 无需加1
                             successfully_scheduled = True
                             break
     return timetable
+
+
+
+def find_unused_time_slots(timetable, weekdays_num, max_lecture_hours):
+    # 初始化每天的每个小时为未使用
+    all_time_slots = {(day, hour): False for day in range(1, weekdays_num + 1) for hour in range(1, max_lecture_hours + 1)}
+
+    # 标记使用的小时
+    for _, _, day, start_hour, end_hour in timetable:
+        for hour in range(start_hour, end_hour):
+            all_time_slots[(day, hour)] = True
+
+    # 查找连续的未使用小时，并创建时间段
+    unused_time_slots = []
+    for day in range(1, weekdays_num + 1):
+        start = None
+        for hour in range(1, max_lecture_hours + 1):
+            if all_time_slots[(day, hour)] == False:
+                if start is None:
+                    start = hour
+            else:
+                if start is not None:
+                    unused_time_slots.append((day, start, hour))
+                    start = None
+        # 检查是否有跨越整天的未使用时间段
+        if start is not None:
+            unused_time_slots.append((day, start, max_lecture_hours + 1))
+
+    return unused_time_slots
 
 
 
@@ -94,24 +97,24 @@ def mutate(timetable, courses, hours_per_course, students_per_course, room_capac
         mutated_timetable = [entry for entry in mutated_timetable if entry[0] != course]
         hours_needed = hours_per_course[course]
 
-        shuffled_time_slots = unused_time_slots[:]  
-        random.shuffle(shuffled_time_slots)  
+        shuffled_time_slots = unused_time_slots[:]  # 复制未使用时间段列表
+        random.shuffle(shuffled_time_slots)  # 打乱时间段列表以增加随机性
 
-        for _ in range(100):  
+        for _ in range(100):  # 尝试100次找到合适的时间段和教室
             day = random.randint(1, weekdays_num)
             room = random.choice(rooms)
 
             if room_capacities[room] >= students_per_course[course]:
-                if shuffled_time_slots:  
-                    slot = shuffled_time_slots.pop(0)  
-                    day, start, _ = slot  
+                if shuffled_time_slots:  # 如果有未使用的时间段，优先考虑
+                    slot = shuffled_time_slots.pop(0)  # 从打乱的列表中取出一个时间段
+                    day, start, _ = slot  # 使用该时间段的起始时间
                 else:
-                    start = random.randint(1, max_lecture_hours - hours_needed + 1)  
+                    start = random.randint(1, max_lecture_hours - hours_needed + 1)  # 没有未使用时间段时随机选择开始时间
                 
                 end = start + hours_needed
                 if end <= max_lecture_hours and is_time_slot_available(mutated_timetable, room, day, start, end):
                     mutated_timetable.append((course, room, day, start, end))
-                    break  
+                    break  # 成功安排后退出循环
 
     return mutated_timetable
 
@@ -122,9 +125,7 @@ def mutate(timetable, courses, hours_per_course, students_per_course, room_capac
 
 
 
-
-
-
+    
 def simulated_annealing(timetable, courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours, max_iterations=100000):
     """Simulated annealing process to optimize the timetable."""
     initial_temp = 10000
@@ -175,4 +176,3 @@ def simulated_annealing(timetable, courses, hours_per_course, students_per_cours
     plt.show()
     
     return best_solution
-
