@@ -42,22 +42,30 @@ def update_velocity(particle, global_best_position, w, c1, c2, max_velocity=3):
 def update_position(particle, weekdays_num, max_lecture_hours, hours_per_course, rooms):
     for i in range(len(particle.position)):
         course_code, room, day, start_hour, _ = particle.position[i]
-        new_hour = int(round(start_hour + particle.velocity[i]))
+        hours_needed = hours_per_course[course_code]  #
 
-        # Add random perturbation
+       
+        new_start_hour = int(round(start_hour + particle.velocity[i]))
+
+        
         if random.random() < 0.2:
-            new_hour += random.choice([-1, 1])
+            new_start_hour += random.choice([-1, 1])
 
-        new_hour = max(1, min(new_hour, max_lecture_hours))
-        duration = hours_per_course[course_code]
-        new_end_hour = new_hour + duration
+        
+        new_start_hour = max(1, min(new_start_hour, max_lecture_hours - hours_needed + 1))
 
-        # Randomly change the room
+        new_end_hour = new_start_hour + hours_needed  
+
+        
+        if new_end_hour > max_lecture_hours:
+            new_end_hour = max_lecture_hours
+            new_start_hour = max(1, new_end_hour - hours_needed + 1)  
+
+        
         if random.random() < 0.2:
             room = random.choice(rooms)
 
-        particle.position[i] = (course_code, room, day, new_hour, new_end_hour)
-
+        particle.position[i] = (course_code, room, day, new_start_hour, new_end_hour)
 
 # PSO optimization remains largely the same, just pass hours_per_course to update_position
 
