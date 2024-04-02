@@ -340,5 +340,5 @@ room_capacities = {
     'NUC_G.02 - Elm Lecture Theatre': 112, 'SB_Main Lecture Theatre': 374
 }
 weekdays_num = 5
-max_lecture_hours = 10
+max_lecture_hours = 9
 
