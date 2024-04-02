@@ -50,12 +50,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
         print(slot)
 
 
-    # Check unassigned courses
-    unassigned = check_unassigned_courses(courses, final_timetable)
-    if unassigned:
-        print("Unassigned Courses after Optimization:", unassigned)
-    else:
-        print("All courses have been successfully scheduled.")
+
 
 
     print("We try to use Particle Swarm Optimization first and then use Simulated Annealing")
@@ -91,11 +86,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     for slot in unused_slots:
         print(slot)
 
-    unassigned = check_unassigned_courses(courses, SA_timetable)
-    if unassigned:
-        print("Unassigned Courses after Optimization:", unassigned)
-    else:
-        print("All courses have been successfully scheduled.")
+
 
 
     print("Next consider about don't allocate courses on Wednesday afternoon, For this we only use simulated annealing to see what will happened")
