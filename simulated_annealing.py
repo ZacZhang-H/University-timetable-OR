@@ -7,6 +7,34 @@ from utility_functions import calculate_conflict_occurrences,calculate_conflict_
 
 random.seed(43)
 
+def find_unused_time_slots(timetable, weekdays_num, max_lecture_hours):
+   
+    all_time_slots = {(day, hour): False for day in range(1, weekdays_num + 1) for hour in range(1, max_lecture_hours + 1)}
+
+  
+    for _, _, day, start_hour, end_hour in timetable:
+        for hour in range(start_hour, end_hour):
+            all_time_slots[(day, hour)] = True
+
+
+    unused_time_slots = []
+    for day in range(1, weekdays_num + 1):
+        start = None
+        for hour in range(1, max_lecture_hours + 1):
+            if all_time_slots[(day, hour)] == False:
+                if start is None:
+                    start = hour
+            else:
+                if start is not None:
+                    unused_time_slots.append((day, start, hour))
+                    start = None
+   
+        if start is not None:
+            unused_time_slots.append((day, start, max_lecture_hours + 1))
+
+    return unused_time_slots
+
+
 def fitness(timetable, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
     """
     Calculate the fitness of a timetable, focusing on reducing the number of conflict occurrences and conflict count.
@@ -42,10 +70,10 @@ def generate_sample(courses, hours_per_course, students_per_course, room_capacit
                     continue
                 for start_hour in range(1, max_lecture_hours - hours_needed + 1):
                     end_hour = start_hour + hours_needed
-                    # 检查即使加上持续时间后，是否仍然不超过最大时间段
+                   
                     if end_hour <= max_lecture_hours: 
                         if is_time_slot_available(timetable, room, day, start_hour, end_hour):
-                            timetable.append((course, room, day, start_hour, end_hour))  # 使用 end_hour 无需加1
+                            timetable.append((course, room, day, start_hour, end_hour)) 
                             successfully_scheduled = True
                             break
     return timetable
@@ -58,30 +86,36 @@ def generate_sample(courses, hours_per_course, students_per_course, room_capacit
 
 def mutate(timetable, courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
     mutated_timetable = copy.deepcopy(timetable)
+    unused_time_slots = find_unused_time_slots(mutated_timetable, weekdays_num, max_lecture_hours)
     
     courses_to_mutate = random.sample(courses, k=random.randint(1, len(courses) // 2))
     
     for course in courses_to_mutate:
         mutated_timetable = [entry for entry in mutated_timetable if entry[0] != course]
         hours_needed = hours_per_course[course]
-        
-        attempt = 0
-        while attempt < 100:  
-            attempt += 1
+
+        shuffled_time_slots = unused_time_slots[:]  
+        random.shuffle(shuffled_time_slots)  
+
+        for _ in range(100):  
             day = random.randint(1, weekdays_num)
             room = random.choice(rooms)
-            
+
             if room_capacities[room] >= students_per_course[course]:
-                start_hour_range = max_lecture_hours - hours_needed + 1
-                start_hour = random.randint(1, start_hour_range)
-                end_hour = start_hour + hours_needed
+                if shuffled_time_slots:  
+                    slot = shuffled_time_slots.pop(0)  
+                    day, start, _ = slot  
+                else:
+                    start = random.randint(1, max_lecture_hours - hours_needed + 1)  
                 
-                if end_hour <= max_lecture_hours: 
-                    if is_time_slot_available(mutated_timetable, room, day, start_hour, end_hour):
-                        mutated_timetable.append((course, room, day, start_hour, end_hour))
-                        break
-    
+                end = start + hours_needed
+                if end <= max_lecture_hours and is_time_slot_available(mutated_timetable, room, day, start, end):
+                    mutated_timetable.append((course, room, day, start, end))
+                    break  
+
     return mutated_timetable
+
+
 
 
 
