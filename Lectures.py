@@ -4,7 +4,7 @@ from pso_optimizer import pso_optimize
 # from genetic_algorithm_optimizer import genetic_algorithm_optimize
 from utility_functions import calculate_conflict_occurrences,calculate_conflict_count,check_unassigned_courses,find_conflicting_courses,print_timetable_by_room,find_unused_time_slots1
 from SEM1_lecture_and_rooms import weekdays_num, max_lecture_hours
-
+from SA_wednesday import simulated_annealing_Wednesday
 
 def semster_lectures(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
     #Generate initial schedule randomly
@@ -98,6 +98,15 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
 
 
     print("Next consider about don't allocate courses on Wednesday afternoon, For this we only use simulated annealing to see what will happened")
+    Wednesday = simulated_annealing_Wednesday(initial_timetable,courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num=5, max_lecture_hours=9, max_iterations=100000)
+    print("Optimized class schedule and the number of conflicts：")
+    print_timetable_by_room(Wednesday, hours_per_course)
+    conflicts = calculate_conflict_occurrences(Wednesday)  # Calculates conflicts based on room and start hour
+    conflict_occurrences = calculate_conflict_count(Wednesday) 
+    print("conflict occurrences:", conflicts,"number of courses that conflict",conflict_occurrences)
+    conflicting_courses = find_conflicting_courses(Wednesday)
+    print("Conflicting courses:", conflicting_courses)
+    
     
     
     
