@@ -31,7 +31,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     unused_slots = find_unused_time_slots1(optimized_timetable, weekdays_num=5, max_lecture_hours=9)
     print("Unused Time Slots:")
     for slot in unused_slots:
-    print(slot)
+        print(slot)
 
     # Optimize the results of simulated annealing using PSO
     print("\nStep 3: Further Optimizing Timetable using Particle Swarm Optimization (PSO)")
@@ -46,7 +46,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     unused_slots = find_unused_time_slots1(final_timetable, weekdays_num=5, max_lecture_hours=9)
     print("Unused Time Slots:")
     for slot in unused_slots:
-    print(slot)
+        print(slot)
 
 
     # Check unassigned courses
@@ -73,7 +73,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     unused_slots = find_unused_time_slots1(pso_timetable, weekdays_num=5, max_lecture_hours=9)
     print("Unused Time Slots:")
     for slot in unused_slots:
-    print(slot)
+        print(slot)
     
     # Optimize random schedules using simulated annealing
     print("\nStep 2: Optimizing Timetable using Simulated Annealing")
@@ -88,7 +88,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     unused_slots = find_unused_time_slots1(SA_timetable, weekdays_num=5, max_lecture_hours=9)
     print("Unused Time Slots:")
     for slot in unused_slots:
-    print(slot)
+        print(slot)
 
     unassigned = check_unassigned_courses(courses, SA_timetable)
     if unassigned:
