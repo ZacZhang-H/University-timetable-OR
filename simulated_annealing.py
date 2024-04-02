@@ -45,7 +45,7 @@ def generate_sample(courses, hours_per_course, students_per_course, room_capacit
                 for start_hour in range(1, max_lecture_hours - hours_needed + 1):
                     end_hour = start_hour + hours_needed
                     # 检查即使加上持续时间后，是否仍然不超过最大时间段
-                    if end_hour <= max_lecture_hours: 
+                    if end_hour + 1 <= max_lecture_hours: 
                         if is_time_slot_available(timetable, room, day, start_hour, end_hour):
                             timetable.append((course, room, day, start_hour, end_hour))  # 使用 end_hour 无需加1
                             successfully_scheduled = True
@@ -112,7 +112,7 @@ def mutate(timetable, courses, hours_per_course, students_per_course, room_capac
                     start = random.randint(1, max_lecture_hours - hours_needed + 1)  # 没有未使用时间段时随机选择开始时间
                 
                 end = start + hours_needed
-                if end <= max_lecture_hours and is_time_slot_available(mutated_timetable, room, day, start, end):
+                if end + 1 <= max_lecture_hours and is_time_slot_available(mutated_timetable, room, day, start, end):
                     mutated_timetable.append((course, room, day, start, end))
                     break  # 成功安排后退出循环
 
