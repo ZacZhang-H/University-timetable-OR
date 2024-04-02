@@ -125,3 +125,27 @@ def check_unassigned_courses(courses, optimized_timetable):
     assigned_courses = set(entry[0] for entry in optimized_timetable)
     unassigned_courses = set(courses) - assigned_courses
     return unassigned_courses
+
+
+def find_unused_time_slots1(timetable, weekdays_num, max_lecture_hours):
+   
+    all_time_slots = {(day, hour): False for day in range(1, weekdays_num + 1) for hour in range(1, max_lecture_hours + 1)}
+
+    for _, _, day, start_hour, end_hour in timetable:
+        for hour in range(start_hour, end_hour):
+            all_time_slots[(day, hour)] = True
+
+   
+    unused_slots_list = [key for key, used in all_time_slots.items() if not used]
+
+    hour_to_time = {1: "9am", 2: "10am", 3: "11am", 4: "12pm", 5: "1pm", 6: "2pm", 7: "3pm", 8: "4pm", 9: "5pm", 10: "6pm"}
+    day_names = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+
+  
+    formatted_unused_slots = []
+    for day, hour in sorted(unused_slots_list):
+        day_name = day_names[day - 1]
+        time_range = f"{hour_to_time[hour]} - {hour_to_time.get(hour+1, 'End of Day')}"
+        formatted_unused_slots.append(f"{day_name}, {time_range}")
+
+    return formatted_unused_slots
