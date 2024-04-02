@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import copy
 import numpy as np
 
-
+from utility_functions import calculate_conflict_occurrences,calculate_conflict_count,is_time_slot_available
 random.seed(43)
 
 def fitness(timetable, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
