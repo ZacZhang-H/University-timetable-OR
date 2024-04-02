@@ -2,7 +2,9 @@ from random_timetable_generator import generate_random_sample
 from simulated_annealing import simulated_annealing
 from pso_optimizer import pso_optimize
 # from genetic_algorithm_optimizer import genetic_algorithm_optimize
-from utility_functions import calculate_conflict_occurrences,calculate_conflict_count,check_unassigned_courses,find_conflicting_courses,print_timetable_by_room
+from utility_functions import calculate_conflict_occurrences,calculate_conflict_count,check_unassigned_courses,find_conflicting_courses,print_timetable_by_room,find_unused_time_slots1
+from SEM1_lecture_and_rooms import weekdays_num, max_lecture_hours
+
 
 def semster_lectures(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
     #Generate initial schedule randomly
@@ -26,6 +28,10 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     print("conflict occurrences:", conflicts,"number of courses that conflict",conflict_occurrences)
     conflicting_courses = find_conflicting_courses(optimized_timetable)
     print("Conflicting courses:", conflicting_courses)
+    unused_slots = find_unused_time_slots1(optimized_timetable, weekdays_num=5, max_lecture_hours=9)
+    print("Unused Time Slots:")
+    for slot in unused_slots:
+    print(slot)
 
     # Optimize the results of simulated annealing using PSO
     print("\nStep 3: Further Optimizing Timetable using Particle Swarm Optimization (PSO)")
@@ -37,6 +43,10 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     print("conflict occurrences:", conflicts,"number of courses that conflict",conflict_occurrences)
     conflicting_courses = find_conflicting_courses(final_timetable)
     print("Conflicting courses:", conflicting_courses)
+    unused_slots = find_unused_time_slots1(final_timetable, weekdays_num=5, max_lecture_hours=9)
+    print("Unused Time Slots:")
+    for slot in unused_slots:
+    print(slot)
 
 
     # Check unassigned courses
@@ -60,6 +70,10 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     print("conflict occurrences:", conflicts,"number of courses that conflict",conflict_occurrences)
     conflicting_courses = find_conflicting_courses(pso_timetable)
     print("Conflicting courses:", conflicting_courses)
+    unused_slots = find_unused_time_slots1(pso_timetable, weekdays_num=5, max_lecture_hours=9)
+    print("Unused Time Slots:")
+    for slot in unused_slots:
+    print(slot)
     
     # Optimize random schedules using simulated annealing
     print("\nStep 2: Optimizing Timetable using Simulated Annealing")
@@ -71,13 +85,21 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     print("conflict occurrences:", conflicts,"number of courses that conflict",conflict_occurrences)
     conflicting_courses = find_conflicting_courses(SA_timetable)
     print("Conflicting courses:", conflicting_courses)
+    unused_slots = find_unused_time_slots1(SA_timetable, weekdays_num=5, max_lecture_hours=9)
+    print("Unused Time Slots:")
+    for slot in unused_slots:
+    print(slot)
 
     unassigned = check_unassigned_courses(courses, SA_timetable)
     if unassigned:
         print("Unassigned Courses after Optimization:", unassigned)
     else:
         print("All courses have been successfully scheduled.")
- 
+
+
+    print("Next consider about don't allocate courses on Wednesday afternoon, For this we only use simulated annealing to see what will happened")
+    
+    
     
 
 
