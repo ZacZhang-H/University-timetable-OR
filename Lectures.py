@@ -5,7 +5,8 @@ from pso_optimizer import pso_optimize
 from utility_functions import calculate_conflict_occurrences,calculate_conflict_count,check_unassigned_courses,find_conflicting_courses,print_timetable_by_room,find_unused_time_slots1
 from SEM1_lecture_and_rooms import weekdays_num, max_lecture_hours
 from SA_wednesday import simulated_annealing_Wednesday
-
+import random
+random.seed(43)
 def semster_lectures(courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours):
     #Generate initial schedule randomly
     
