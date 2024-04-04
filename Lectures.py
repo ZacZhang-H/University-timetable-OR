@@ -21,7 +21,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
 
     # Optimize random schedules using simulated annealing
     print("\nStep 2: Optimizing Timetable using Simulated Annealing")
-    optimized_timetable = simulated_annealing(initial_timetable,courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num=5, max_lecture_hours=9, max_iterations=100000)
+    optimized_timetable = simulated_annealing(initial_timetable,courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num=5, max_lecture_hours=10, max_iterations=100000)
     print("Optimized class schedule and the number of conflicts：")
     print_timetable_by_room(optimized_timetable, hours_per_course)
     conflicts = calculate_conflict_occurrences(optimized_timetable)  # Calculates conflicts based on room and start hour
@@ -73,7 +73,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
     
     # Optimize random schedules using simulated annealing
     print("\nStep 2: Optimizing Timetable using Simulated Annealing")
-    SA_timetable = simulated_annealing(pso_timetable,courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num=5, max_lecture_hours=9, max_iterations=100000)
+    SA_timetable = simulated_annealing(pso_timetable,courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num=5, max_lecture_hours=10, max_iterations=100000)
     print("Optimized class schedule and the number of conflicts：")
     print_timetable_by_room(SA_timetable, hours_per_course)
     conflicts = calculate_conflict_occurrences(SA_timetable)  # Calculates conflicts based on room and start hour
@@ -90,7 +90,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
 
 
     print("Next consider about don't allocate courses on Wednesday afternoon, For this we only use simulated annealing to see what will happened")
-    Wednesday = simulated_annealing_Wednesday(initial_timetable,courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num=5, max_lecture_hours=9, max_iterations=100000)
+    Wednesday = simulated_annealing_Wednesday(initial_timetable,courses, hours_per_course, students_per_course, room_capacities, rooms, weekdays_num=5, max_lecture_hours=10, max_iterations=100000)
     print("Optimized class schedule and the number of conflicts：")
     print_timetable_by_room(Wednesday, hours_per_course)
     conflicts = calculate_conflict_occurrences(Wednesday)  # Calculates conflicts based on room and start hour
