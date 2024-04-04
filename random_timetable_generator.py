@@ -17,7 +17,7 @@ def generate_random_sample(courses, hours_per_course, students_per_course, room_
                 # 选择一个随机的开始时间
                 start_hour = random.randint(1, start_hour_range)
                 end_hour = start_hour + hours_needed
-                if end_hour <= max_lecture_hours:  # 再次确认结束时间不会超出限制
+                if end_hour+1 <= max_lecture_hours:  # 再次确认结束时间不会超出限制
                     if is_time_slot_available(timetable, room, day, start_hour, end_hour):
                         timetable.append((course, room, day, start_hour, end_hour))
                         course_scheduled = True
