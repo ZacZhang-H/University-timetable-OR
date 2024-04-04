@@ -36,7 +36,7 @@ def semster_lectures(courses, hours_per_course, students_per_course, room_capaci
 
     # Optimize the results of simulated annealing using PSO
     print("\nStep 3: Further Optimizing Timetable using Particle Swarm Optimization (PSO)")
-    final_timetable = pso_optimize(optimized_timetable,hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours, num_particles=30, max_iterations=10000, print_frequency=100)
+    final_timetable = pso_optimize(optimized_timetable,hours_per_course, students_per_course, room_capacities, rooms, weekdays_num, max_lecture_hours, num_particles=30, max_iterations=100000, print_frequency=1000)
     print("Optimized class schedule and the number of conflicts：")
     print_timetable_by_room(final_timetable, hours_per_course)
     conflicts = calculate_conflict_occurrences(final_timetable)  # Calculates conflicts based on room and start hour
