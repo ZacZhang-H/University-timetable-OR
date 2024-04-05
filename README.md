@@ -1,5 +1,6 @@
 # Operational research for University timetable
-Topics in Applied OR Project
+Topics in Applied OR Project. Detail report can see document "Timetabling Optimization Project for the School of Mathematics"
+School of Mathematics
 # Timetabling Optimization Project for the School of Mathematics
 
 ## Introduction
